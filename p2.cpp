@@ -1,6 +1,6 @@
 // Pentru o fereastra de dimensiuni 24x24 vom avea aprox. 160 000 de caracteristici (la scala minima)
 // Vom cauta toate caracteristicile pentru toate dimensiunile
-// Pentru fiecare fereastra de 24x24 vom avea aprox. 2500 caracteristici
+// Pentru fiecare fereastra de 24x24 vom avea aprox. 2500 clasificatori slabi
 
 #include <iostream>
 #include <cstdlib>
