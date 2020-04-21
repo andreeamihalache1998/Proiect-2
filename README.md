@@ -51,14 +51,39 @@ De asemenea, vom folosi fiecare valoare a unei caracteristici pentru a construi 
 
  
  
- //Caracteristicile HAAR vor fi clasificate cu ajutorul clasificatorului AdaBoost 
-	//AdaBoosting
-	//1.Initialise the dataset and assign equal weight to each of the data point.-> Initializam un set de date +atribuirede ponderi egale pentru punctele date
-	//2.Provide this as input to the modeland identify the wrongly classified data points. -> Identificarea punctelor de date clasificate gresit
-	//3.Increase the weight of the wrongly classified data points.-> Cresterea ponderii punctelor de date clasificate gresit
-	//4.if (got required results)
-			//Go to step 5
-		//else
-			//Go to step 2
-		//5.End
-  
+pentru Adaboost
+
+-clasificatorr slab1  _
+		       |
+-clasificator slab2    |
+		       |
+-clasificator slab3    | 
+		       |
+-clasificator slab4    |    -clasificator puternic1
+		       |
+.  		       |
+. 		       |
+.		       |
+		       |
+-clasificator slab n  _|
+
+
+-sa presupunem ca avem un vector de dim n care sa contina
+clasificatorii slabi 
+
+-clasificatorii slabi putem spune ca sunt nuantele de gri 
+de la 0 la 255 (n=256)
+//rectific, cred ca acesti clasificatori n poti fi mult
+mai multi
+//in principiu avem nevoie doar de 2 clasificatori
+puternici?
+
+
+-clasificatorii puternici sa fie nuantele de alb si negru
+(m=2)
+
+-trebuie sa "trainuim" clasificatorii slabi astfel incat
+nuantele de gri intre 0 si 128 sa faca parte din 
+clasificatorul puternic alb si intr 129 si 255 sa faca
+parte din clasificatorul puternic negru
+
