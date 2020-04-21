@@ -51,22 +51,10 @@ De asemenea, vom folosi fiecare valoare a unei caracteristici pentru a construi 
 
  
  
-pentru Adaboost
+pentru Adaboost (idei)
 
--clasificatorr slab1  _
-		       |
--clasificator slab2    |
-		       |
--clasificator slab3    | 
-		       |
--clasificator slab4    |    -clasificator puternic1
-		       |
-.  		       |
-. 		       |
-.		       |
-		       |
--clasificator slab n  _|
-
+-clasificator slab1 + clasificator slab2+ clasificator slab3 + clasificator slab4 + ... + clasificator slab n = clasificator puternic1
+(nu e adunare efectiva)
 
 -sa presupunem ca avem un vector de dim n care sa contina
 clasificatorii slabi 
