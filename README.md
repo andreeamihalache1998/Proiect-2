@@ -49,5 +49,16 @@ este parametrizată prin locație și mărime.
 De asemenea, vom folosi fiecare valoare a unei caracteristici pentru a construi un clasificator slab 
 (care ulterior ne va spune dacă fereastra respectivă conține o față).
 
-  
+ 
+ 
+ //Caracteristicile HAAR vor fi clasificate cu ajutorul clasificatorului AdaBoost 
+	//AdaBoosting
+	//1.Initialise the dataset and assign equal weight to each of the data point.-> Initializam un set de date +atribuirede ponderi egale pentru punctele date
+	//2.Provide this as input to the modeland identify the wrongly classified data points. -> Identificarea punctelor de date clasificate gresit
+	//3.Increase the weight of the wrongly classified data points.-> Cresterea ponderii punctelor de date clasificate gresit
+	//4.if (got required results)
+			//Go to step 5
+		//else
+			//Go to step 2
+		//5.End
   
