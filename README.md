@@ -66,12 +66,10 @@ mai multi
 //in principiu avem nevoie doar de 2 clasificatori
 puternici?
 
-
--clasificatorii puternici sa fie nuantele de alb si negru
-(m=2)
-
 -trebuie sa "trainuim" clasificatorii slabi astfel incat
 nuantele de gri intre 0 si 128 sa faca parte din 
 clasificatorul puternic alb si intr 129 si 255 sa faca
 parte din clasificatorul puternic negru
 
+http://mccormickml.com/2013/12/13/adaboost-tutorial/
+->de aici am luat unele idei pe care cred eu ca as putea sa le implementez (mai simplu)
