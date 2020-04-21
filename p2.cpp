@@ -2,21 +2,19 @@
 // Vom cauta toate caracteristicile pentru toate dimensiunile
 // Pentru fiecare fereastra de 24x24 vom avea aprox. 2500 clasificatori slabi
 
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <sstream>
 #include<opencv2/opencv.hpp>
 #include<opencv2/core/mat.hpp>
+#include<iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include<algorithm>
 #include<fstream>
 #include<cmath>
-
+#include <cstdlib>
 
 using namespace std;
-
+using namespace cv;
+//Formarea Caracteristicilor
 class Feature {
     int type; // am declarat tipurile de caracteristici
     int width, height; // latimea si inaltimea fiecarei caracteristici
@@ -94,6 +92,72 @@ void Feature::scale(float s) {
     this->yc *= s;
 }
 
+ 
+//Clasificatorii slabi      -> in acest caz pentru a forma clasificatorii slabi vom avea nevoie de:
+//    -> pondere  (initializarea) fiecare clasifictor are ponderi iar acestea le vom pune egale (uniforme) ca apoi clasificatorul puternic sa tinda catre 0
+//    ->exita o eroare cuprinsa intre [0,1] pentru fiecare clasificator slab in parte care ajuta la antrenarea lui
+//    -> rata de eroare 
+
+class WeakClassifier {
+
+protected: float error_rate;
+         float weight;  
+         
+public:
+    //constructor
+    
+    WeakClassifier(float err, float wgh)
+    {
+       WeakClassifier::error_rate = err;
+       WeakClassifier::weight = wgh;
+        
+
+   };
+    float getErr() const;
+    float getWeight() const;
+    void train_Classifier() const;
+    
+
+    void setErr(long err);
+    void setWeight(float wgh);
+ 
+    void printClassifier();
+    void writeClassifier();
+
+//destructor
+~WeakClassifier() {}
+};
+
+
+void WeakClassifier::setErr(long err) {
+   this->error_rate= err;
+}
+
+void WeakClassifier::setWeight(float wgh) {
+    this->weight = wgh;
+}
+float WeakClassifier::getErr() const {
+    return error_rate;                 
+}
+
+float WeakClassifier::getWeight() const {
+
+    return weight;
+}
+
+
+
+//Antrenarea clasificatorilor slabi->dorim sa oferim anumite valori prin diferite ecuatii matematice, aceste valori depinzand de eroarea caracteristicii
+void WeakClassifier:: train_Classifier() const  {
+    WeakClassifier Weak1();
+    Weak1.setWeight();
+
+    //weight =1/2*log((1-error_rate)/error_rate);   
+
+   
+}
+//weight =1/2*log((1-error_rate)/error_rate);   pentru antrenare
+
 int main()
 {
 
@@ -113,7 +177,6 @@ int main()
 	//Display the grayscale image 
 	namedWindow("Display Grayscale Image", WINDOW_AUTOSIZE);
 	imshow("Display Grayscale Image", img_gray);
-    
     waitKey(0);
 	return 0;
 
