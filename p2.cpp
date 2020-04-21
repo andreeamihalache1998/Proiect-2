@@ -6,6 +6,14 @@
 #include <cstdlib>
 #include <string>
 #include <sstream>
+#include<opencv2/opencv.hpp>
+#include<opencv2/core/mat.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include<algorithm>
+#include<fstream>
+#include<cmath>
+
 
 using namespace std;
 
@@ -84,4 +92,30 @@ void Feature::scale(float s) {
     this->height *= s;
     this->xc *= s;
     this->yc *= s;
+}
+
+int main()
+{
+
+	//afisarea imaginii
+	Mat img = imread("E:\\FACULTATE\\lena.png", 1);
+	if (!img.data)
+	{
+		cout << "No image data \n";
+		return -1;
+	}
+	//Convertim imaginea in alb-negru- GreyScale
+	Mat img_gray;
+	cvtColor(img, img_gray, COLOR_BGR2GRAY);
+	namedWindow("Display Original Image", WINDOW_AUTOSIZE);
+	imshow("Display Original Image", img);
+
+	//Display the grayscale image 
+	namedWindow("Display Grayscale Image", WINDOW_AUTOSIZE);
+	imshow("Display Grayscale Image", img_gray);
+    
+    waitKey(0);
+	return 0;
+
+
 }
