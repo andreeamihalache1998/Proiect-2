@@ -78,4 +78,7 @@ https://en.wikipedia.org/wiki/Viola%E2%80%93Jones_object_detection_framework
 https://en.wikipedia.org/wiki/Summed-area_table -> despre imaginea integrala
 https://books.google.ro/books?id=ZPt2xrZFtzkC&printsec=frontcover&hl=ro -> "Introduction to Biometrics" -> in special pentru extragerea trasaturilor si potrivirea lor
 
+1. Avem "scheletul" algoritmului, dar cum putem sa implementam toate acestea si sa le combinam?
+2. Cum putem sa abordam antrenarea clasificatorilor slabi?
+3. Cum facem algoritmul sa se descurce cu eventualele variatii ale dimensiunilor fetelor? 
 
