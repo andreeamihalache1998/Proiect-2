@@ -71,5 +71,11 @@ nuantele de gri intre 0 si 128 sa faca parte din
 clasificatorul puternic alb si intr 129 si 255 sa faca
 parte din clasificatorul puternic negru
 
+De aici am luat unele idei pe care le-am putea implementa (mai simplu):
+https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf -> Articolul stiintific oficial al lui Viola si Jones din 2001
 http://mccormickml.com/2013/12/13/adaboost-tutorial/
-->de aici am luat unele idei pe care cred eu ca as putea sa le implementez (mai simplu)
+https://en.wikipedia.org/wiki/Viola%E2%80%93Jones_object_detection_framework
+https://en.wikipedia.org/wiki/Summed-area_table -> despre imaginea integrala
+https://books.google.ro/books?id=ZPt2xrZFtzkC&printsec=frontcover&hl=ro -> "Introduction to Biometrics" -> in special pentru extragerea trasaturilor si potrivirea lor
+
+
