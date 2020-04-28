@@ -1,7 +1,7 @@
 # Proiect-2
-Proiect2-Implementare caracteristici-Gheorghita Ana+Mihalache Cristiana Andreea
+Detecţie facială - Gheorghita Ana, Mihalache Cristiana Andreea
 
-Descriere algoritm detectare facială
+Descriere algoritm 
 – paşi iniţiali–
 
 Pentru implementarea algoritmului de detecție facială cu ajutorul Viola-Jones, ne vom ocupa de următoarele: 
