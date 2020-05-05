@@ -6,8 +6,6 @@
 #include<algorithm>
 #include<fstream>
 #include<cmath>
-#include <cstdlib>
-
 
 #include <cstdio>
 #include <iostream>
@@ -16,13 +14,14 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <vector>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <cstdlib>
 
 
 
 using namespace std;
 using namespace cv;
 
-class pixel{
+/*class pixel{
 	int r;
 	int g;
 	int b;
@@ -113,7 +112,7 @@ int Feature::getHeight() { // returnam inaltimea (pentru ca este declarata priva
       cout << "Eroare: caracteristica de tip " << this->type << " nu exista. Tipul caracteristicilor se afla in intervalul [,].\n";
       exit(-1);
   }
-}*/
+}
 
 void Feature::scale(float s) {
     this->width *= s;
@@ -121,7 +120,6 @@ void Feature::scale(float s) {
     this->xc *= s;
     this->yc *= s;
 }
-
  
 //Clasificatorii slabi      -> in acest caz pentru a forma clasificatorii slabi vom avea nevoie de:
 //    -> pondere  (initializarea) fiecare clasifictor are ponderi iar acestea le vom pune egale (uniforme) ca apoi clasificatorul puternic sa tinda catre 0
@@ -140,8 +138,6 @@ public:
     {
        WeakClassifier::error_rate = err;
        WeakClassifier::weight = wgh;
-        
-
    };
     float getErr() const;
     float getWeight() const;
@@ -175,44 +171,92 @@ float WeakClassifier::getWeight() const {
     return weight;
 }
 
-
-
 //Antrenarea clasificatorilor slabi->dorim sa oferim anumite valori prin diferite ecuatii matematice, aceste valori depinzand de eroarea caracteristicii
 void WeakClassifier:: train_Classifier() const  {
     WeakClassifier Weak1();
     Weak1.setWeight();
-
     //weight =1/2*log((1-error_rate)/error_rate);   
-
-   
 }
-//weight =1/2*log((1-error_rate)/error_rate);   pentru antrenare
+//weight =1/2*log((1-error_rate)/error_rate);   pentru antrenare */
+
+
+
+// aici se construieste imaginea integrala, in functie de imaginea initiala si dimensiunile dorite 
+// unde ii == imaginea integrala, careia ii adaugam un & pentru a-si pastra valoarea si la iesirea din functie
+void to_ii(vector<vector<int>> &img, vector<vector<int>> &ii, int height, int width) {
+	int value;
+	for (int x = 0; x < height; x++)
+	{
+		for (int y = 0; y < width; y++)
+		{
+			value = img[x][y];
+			if (y > 0)
+				value += ii[x][y - 1];
+			if (x > 0)
+				value += ii[x - 1][y];
+			if (x > 0 && y > 0)
+				value -= ii[x - 1][y - 1];
+			ii[x][y] = value;
+		}
+	}
+}
+
+// se calculeaza valoarea dreptunghiului aflat intre punctele A, B, C, D, cu ajutorul imaginii integrale
+// pentru a ne fi mai usor sa calculcam valorile caracteristicilor mai tarziu
+int rectangle_value(vector<vector<int>> ii, int rectangle_X, int rectangle_Y, int rectangle_Width, int rectangle_Height) {
+	int A = 0, B = 0, C = 0, D = 0;
+	if (rectangle_X > 0 && rectangle_Y> 0)
+		A = ii[rectangle_X - 1][rectangle_Y - 1]; cout << A << " ";
+	if (rectangle_Y > 0)
+		B = ii[rectangle_X - 1][rectangle_Y + rectangle_Height - 2]; cout << B << " ";
+	if (rectangle_X > 0)
+		C = ii[rectangle_X + rectangle_Width - 2][rectangle_Y - 1]; cout << C << " ";
+
+	D = ii[rectangle_X + rectangle_Width - 2][rectangle_Y + rectangle_Height - 2]; cout << D <<" \n";
+
+	int sum = A - B - C + D;
+
+	return sum;
+}
+
+// aici vom construi clasa ViolaJones, care va contine, printre altele, functia de antrenare a clasificatorilor
+class ViolaJones {
+public:
+	int T = 10; // numarul de runde pentru care se va efectua antrenarea, unde se vor retine "greutatea" si polaritatea fiecarui clasificator slab
+	void train(vector<vector<int>> ii, vector<int> training) {
+		vector<vector<vector<int>>, int> training_data; // vector de perechi: imagine & clasificarea ei (1 pentru img. poz, 0 pt. neg.)
+
+
+	}
+
+};
+
 
 
 
 int main() {
 	cout << "Se citeste imaginea.";
-	//cin.get();
+	cin.get();
 
-	vector<vector<pixel>> image; // declar matricea de pixeli
+	// vector<vector<pixel>> image; // declar matricea de pixeli
 
-
-	Mat grey_image;
-
+	// se citeste imaginea
 	Mat read_image; 
-	read_image = imread("Data\\test.png", IMREAD_COLOR);		// se citeste imaginea
+	read_image = imread("Data\\pixels_4.png", IMREAD_COLOR);
 
+	// se verifica daca input-ul este valid
 	if (!read_image.data) {								// se verifica daca input-ul este valid
 		cout << "Imaginea nu a putut fi incarcata." << endl;
 		exit(0);
 	}
-
+	
+	// se obtin latimea, inaltimea imaginii si numarul de canale
 	int width = read_image.cols, height = read_image.rows, channelsNo = read_image.channels();
-
 	cout << "Dimensiunile imaginii sunt:\nlatime: " << width << "\ninaltime: " << height << "\nchannels no: " << channelsNo << "\n";
 
-
-	cvtColor(read_image, grey_image, COLOR_BGR2GRAY); // convertire BGR -> greyscale
+	// are loc conversia BGR -> greyscale
+	Mat grey_image;
+	cvtColor(read_image, grey_image, COLOR_BGR2GRAY); 
 
 	/*for (int j = 0; j < height; j++) {
 		vector<pixel> vec;
@@ -250,31 +294,27 @@ int main() {
 
 
 
-	vector<vector<int>> vec_dragut;
-	for (int i = 0; i< height; i++)
+	vector<vector<int>> mat; // declar matricea de pixeli
+	for (int i = 0; i < height; i++) // creez matricea cu valorile intregi corespunzatoare pixelilor greyscale ai imaginii
 	{
-		vector<int> linie;
-		for (int j = 0; j< width; j++)
+		vector<int> line;
+		for (int j = 0; j < width; j++)
 		{
-			linie.push_back((int)grey_image.at<uchar>(i, j));
+			line.push_back((int)grey_image.at<uchar>(i, j));
 		}
-		vec_dragut.push_back(linie);
-		linie.clear();
+		mat.push_back(line);
+		line.clear();
 	}
 
 
-	/*for (int i = 0; i < height; i++) { // test afisare valori matrice pixeli greyscale
+	/*for (int i = 0; i < height; i++) { // afisez valori matrice pixeli greyscale
 		for (int j = 0; j < width; j++) {
-			cout << vec_dragut[i][j] << " ";
+			cout << mat[i][j] << " ";
 		}
 		cout << "\n";
 	}*/
 
-	//cout << vec_dragut[0][0] << " " << vec_dragut[0][width-1] << " \n" << vec_dragut[height-1][0] << " " << vec_dragut[height-1][width-1]; //test
-
-
-
-
+	//cout << mat[0][0] << " " << mat[0][839] << " \n" << mat[413][0] << " " << mat[413][839]; // test
 
 	namedWindow("Afisare imagine", WINDOW_AUTOSIZE); // se creaza o fereastra pentru afisare
 	imshow("Afisare imagine", grey_image);				 // se afiseaza imaginea citita in fereastra de afisare
@@ -292,5 +332,41 @@ int main() {
 	std::cout << "Green:" << green << std::endl;
 	std::cout << "Red:" << red << std::endl;*/
 	//cin.get();
+
+
+	vector<vector<int>> integral_image(mat);
+
+	// initial ii == mat
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			cout << integral_image[i][j] << " ";
+		}
+		cout << "\n";
+	}
+	cin.get();
+
+	// obtinem imaginea integrala
+	to_ii(mat, integral_image, height, width);
+
+	// se afiseaza imaginea integrala
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			cout << integral_image[i][j] << " ";
+		}
+		cout << "\n";
+	}
+	cin.get();
+
+	// aici trb sa se intample cv. cu suma diferitelor dreptunghiuri, calc. cu ajutorul ii
+/*	// test pentru fereastra de 3x3 care incepe de la coordonatele (1,1) == coltul stanga sus
+	int sum = rectangle_value(integral_image, 1, 1, 3, 3);
+	cout << "sum = " << sum; 
+	cin.get(); */
+
+	// aici incepe partea din main() pentru antrenarea clasificatorilor, unde vom incepe cu "the sliding window"
+	int min_sliding_window_size = , max_sliding_window_size = ;
+
+
+
 	return 0;
 }
